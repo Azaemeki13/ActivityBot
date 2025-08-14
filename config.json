@@ -1,0 +1,75 @@
+{
+  "Classes": {
+    "Tank": {
+      "ID": "main_tank",
+      "Name": "Main Tank",
+      "RoleID": "1405543462501220482",
+      "Weapons": [
+        { "ID": "shape_bear", "Name": "Bear", "RoleID": "1405544227307520051" }
+      ]
+    },
+    "OffTank": {
+      "ID": "off_tank",
+      "Name": "Off Tank",
+      "RoleID": "1405543549285568643",
+      "Weapons": [
+        { "ID": "great_hammer", "Name": "Great Hammer", "RoleID": "1405544018099572986" }
+      ]
+    },
+    "Heal": {
+      "ID": "heal",
+      "Name": "Main Heal",
+      "RoleID": "1405544675468906626",
+      "Weapons": [
+        { "ID": "redemp_staff", "Name": "Redemption Staff", "RoleID": "1405544769203212330" },
+        { "ID": "hallowfall", "Name": "Hallowfall", "RoleID": "1405544916184076429" },
+        { "ID": "blight_staff", "Name": "Blight Staff", "RoleID": "1405545294069760063" }
+      ]
+    },
+    "Fire": {
+      "ID": "fire",
+      "Name": "Fire",
+      "RoleID": "1405545568201212045",
+      "Weapons": [
+        { "ID": "aria", "Name": "Aria", "RoleID": "1405545631375954050" }
+      ]
+    },
+    "Frost": {
+      "ID": "frost",
+      "Name": "Frost",
+      "RoleID": "1405545841984536616",
+      "Weapons": [
+        { "ID": "arctic_staff", "Name": "Arctic Staff", "RoleID": "1405546012562427924" }
+      ]
+    },
+    "Cursed": {
+      "ID": "cursed",
+      "Name": "Cursed",
+      "RoleID": "1405546170528301126",
+      "Weapons": [
+        { "ID": "cursed_skull", "Name": "Cursed Skull", "RoleID": "1405546299251621949" },
+        { "ID": "cursed_crystal", "Name": "Cursed Crystal", "RoleID": "1405546332718104586" }
+      ]
+    },
+    "Lightcaller": {
+      "ID": "lightcaller",
+      "Name": "LightCaller",
+      "RoleID": "1405546805810167939",
+      "Weapons": [
+        { "ID": "light_caller", "Name": "Light Caller", "RoleID": "1405546805810167939" }
+      ]
+    }
+  },
+
+  "ClassOrder": ["Tank", "OffTank", "Heal", "Fire", "Frost", "Cursed", "Lightcaller"],
+
+  "WeaponOrder": {
+    "Tank": ["shape_bear"],
+    "OffTank": ["great_hammer"],
+    "Heal": ["redemp_staff", "hallowfall", "blight_staff"],
+    "Fire": ["aria"],
+    "Frost": ["arctic_staff"],
+    "Cursed": ["cursed_skull", "cursed_crystal"],
+    "Lightcaller": ["light_caller"]
+  }
+}

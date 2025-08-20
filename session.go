@@ -54,6 +54,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	validateRoles(discordRoles, cfg, botMax)
+	diag := validateRoles(discordRoles, cfg, botMax)
+	printDiagnostics(diag, discordRoles)
 	fmt.Printf("Loaded %d classes from %s\n", len(cfg.Classes), config) // to get rid of
 }

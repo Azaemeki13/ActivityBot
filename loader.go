@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"sort"
+	"strings"
 
 	"github.com/bwmarrin/discordgo"
 )
@@ -102,4 +104,73 @@ func validateRoles(serverRoles map[string]RoleInfo, cfg GuildConfig, botMax int)
 		}
 	}
 	return d
+}
+
+func isRoleValid(roleID string, rolesByID map[string]RoleInfo, botMax int) (RoleInfo, bool) {
+	role, ok := rolesByID[roleID]
+	if !ok {
+		return RoleInfo{}, false
+	}
+	if role.Managed || role.Position > botMax {
+		return role, false
+	}
+	return role, true
+}
+
+func validClassLabels(cfg GuildConfig, rolesByID map[string]RoleInfo, botMax int) []string {
+	result := []string{}
+	order := cfg.ClassOrder
+	if len(order) == 0 {
+		for id := range cfg.Classes {
+			order = append(order, id)
+		}
+	}
+	// here actually declaring an inline function that sorts during my loop if i < j and sort slice accordingly
+	sort.Slice(order, func(i, j int) bool {
+		return cfg.Classes[order[i]].ClassName < cfg.Classes[order[j]].ClassName
+	})
+	for _, classID := range order {
+		class := cfg.Classes[classID]
+		if _, ok := isRoleValid(class.RoleID, rolesByID, botMax); ok {
+			result = append(result, classID)
+		}
+	}
+	return result
+}
+
+func validWeaponLabel(ClassID string, cfg GuildConfig, rolesByID map[string]RoleInfo, botMax int) []string {
+	// 1 - sort
+	// 2 - compare if it's valid
+	class, ok := cfg.Classes[ClassID]
+	if !ok {
+		return nil
+	}
+	// 1) build quick lookup: weaponID -> Weapon, refaire des exos dessus
+	byID := make(map[string]Weapon, len(class.Weapon))
+	for _, w := range class.Weapon {
+		byID[w.WeaponID] = w
+	}
+	result := []string{}
+	order := cfg.WeaponOrder[ClassID]
+	if len(order) == 0 {
+		ids := make([]string, 0, len(class.Weapon))
+		for _, w := range class.Weapon {
+			ids = append(ids, w.WeaponID)
+		}
+		sort.Slice(ids, func(x, y int) bool {
+			wx, wy := byID[ids[x]], byID[ids[y]]
+			return strings.ToLower(wx.WeaponName) > strings.ToLower((wy.WeaponName))
+		})
+		order = ids
+	}
+	for _, wid := range order {
+		w, ok := byID[wid]
+		if !ok {
+			continue
+		}
+		if _, ok := isRoleValid(w.WeaponDiscID, rolesByID, botMax); ok {
+			result := append(result, wid)
+		}
+	}
+	return result
 }
